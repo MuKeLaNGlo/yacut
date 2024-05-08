@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="my-5 px-4">
+  <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
+  <p class="text-center my-4">Создайте короткую ссылку автоматически или предложите свой вариант</p>
+
+  <div class="row my-3">
+    <div class="col-md-6 offset-md-3">
+      <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          {{ form.original_link(class="form-control form-control-lg py-2 mb-3", placeholder="Длинная ссылка") }}
+          {% for error in form.original_link.errors %}
+          <p class="text-danger">{{ error }}</p>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          {{ form.custom_id(class="form-control form-control-lg py-2 mb-3", placeholder="Ваш вариант короткой ссылки") }}
+          {% for error in form.custom_id.errors %}
+          <p class="text-danger">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        {{ form.submit(class="btn btn-primary") }}
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
