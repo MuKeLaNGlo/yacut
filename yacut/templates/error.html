@@ -1,8 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="text-center my-5">
-  <h2>Произошла ошибка</h2>
-  <p>К сожалению, произошла ошибка. Пожалуйста, попробуйте еще раз.</p>
+<div class="container text-center my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="alert alert-danger" role="alert">
+        <h2 class="alert-heading">Произошла ошибка!</h2>
+        <p>К сожалению, произошла ошибка. Пожалуйста, попробуйте еще раз.</p>
+        <hr>
+        <p class="mb-0">Если ошибка повторяется, свяжитесь с поддержкой.</p>
+      </div>
+      <a href="{{ url_for('main.index') }}" class="btn btn-primary">Вернуться на главную</a>
+    </div>
+  </div>
 </div>
 {% endblock %}
