@@ -24,10 +24,15 @@ def create_short_link():
     if custom_id:
         custom_id = extract_id_from_url(custom_id)
         if not validate_custom_id(custom_id):
-            return jsonify(message='Указано недопустимое имя для короткой ссылки'), 400
+            return jsonify(
+                message='Указано недопустимое имя для короткой ссылки'
+            ), 400
         if URLMap.query.filter_by(short=custom_id).first():
             return (
-                jsonify(message='Предложенный вариант короткой ссылки уже существует.'),
+                jsonify(
+                    message='Предложенный вариант'
+                            'короткой ссылки уже существует.'
+                ),
                 400,
             )
 
@@ -44,7 +49,9 @@ def create_short_link():
 @api.route('/id/<short_id>/', methods=['GET'])
 def get_original_link(short_id: str):
     if not short_id:
-        return jsonify(message='Не передан короткий идентификатор ссылки.'), 201
+        return jsonify(
+            message='Не передан короткий идентификатор ссылки.'
+        ), 201
 
     url_map = URLMap.query.filter_by(short=short_id).first()
     if not url_map:

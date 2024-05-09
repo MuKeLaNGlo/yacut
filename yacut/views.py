@@ -17,7 +17,10 @@ def index():
         base_url = request.host_url
 
         if custom_id and URLMap.query.filter_by(short=custom_id).first():
-            flash('Предложенный вариант короткой ссылки уже существует.', 'warning')
+            flash(
+                'Предложенный вариант короткой ссылки уже существует.',
+                'warning'
+            )
             return render_template('index.html', form=form)
 
         short = custom_id if custom_id else get_unique_short_id()
@@ -27,7 +30,8 @@ def index():
 
         full_url = base_url + short
         flash(
-            f'Короткая ссылка создана: <a href="{full_url}" target="_blank">{full_url}</a>',
+            'Короткая ссылка создана: '
+            f'<a href="{full_url}" target="_blank">{full_url}</a>',
             'success',
         )
         return render_template('index.html', form=form)

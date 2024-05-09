@@ -19,7 +19,8 @@ def get_unique_short_id():
 
 
 def validate_custom_id(custom_id):
-    """Проверяет, соответствует ли custom_id условиям: только буквы и цифры, длина до 16 символов."""
+    """Проверяет, соответствует ли custom_id условиям:
+    только буквы и цифры, длина до 16 символов."""
     return bool(match(r'^[A-Za-z0-9]{1,16}$', custom_id))
 
 
