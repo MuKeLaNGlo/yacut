@@ -16,14 +16,14 @@ try:
     from yacut.models import URLMap
 except NameError:
     raise AssertionError(
-        'Не обнаружен объект приложения. Создайте экземпляр класса Flask и '
-        'назовите его app.',
+        "Не обнаружен объект приложения. Создайте экземпляр класса Flask и "
+        "назовите его app.",
     )
 except ImportError as exc:
-    if any(obj in exc.name for obj in ['models', 'URLMap']):
-        raise AssertionError('В файле models не найдена модель URLMap')
+    if any(obj in exc.name for obj in ["models", "URLMap"]):
+        raise AssertionError("В файле models не найдена модель URLMap")
     raise AssertionError(
-        'Не обнаружен объект класса SQLAlchemy. Создайте его и назовите db.'
+        "Не обнаружен объект класса SQLAlchemy. Создайте его и назовите db."
     )
 
 
@@ -35,13 +35,15 @@ def default_app():
 
 @pytest.fixture
 def _app(tmp_path):
-    db_path = tmp_path / 'test_db.sqlite3'
-    db_uri = 'sqlite:///' + str(db_path)
-    app.config.update({
-        'TESTING': True,
-        'SQLALCHEMY_DATABASE_URI': db_uri,
-        'WTF_CSRF_ENABLED': False,
-    })
+    db_path = tmp_path / "test_db.sqlite3"
+    db_uri = "sqlite:///" + str(db_path)
+    app.config.update(
+        {
+            "TESTING": True,
+            "SQLALCHEMY_DATABASE_URI": db_uri,
+            "WTF_CSRF_ENABLED": False,
+        }
+    )
     with app.app_context():
         db.create_all()
     yield app
@@ -68,4 +70,4 @@ def mixer():
 
 @pytest.fixture
 def short_python_url(mixer):
-    return mixer.blend(URLMap, original='https://www.python.org', short='py')
+    return mixer.blend(URLMap, original="https://www.python.org", short="py")

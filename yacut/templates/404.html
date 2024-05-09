@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="alert alert-warning" role="alert">
+        <h2 class="alert-heading">404, Страница не найдена!</h2>
+        <p>Извините, но страница, которую вы искали, не существует, была удалена или временно недоступна.</p>
+        <hr>
+        <p class="mb-0">Проверьте введенный адрес или <a href="{{ url_for('main.index') }}" class="alert-link">вернитесь на главную страницу.</a></p>
+      </div>
+      <a href="{{ url_for('main.index') }}" class="btn btn-primary">Главная страница</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
