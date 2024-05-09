@@ -1,37 +1,53 @@
-Клонировать репозиторий и перейти в него в командной строке:
+# YaCut
 
-```
-git clone 
-```
+[![Flask][Flask-badge]][Flask-url]
+[![SQLAlchemy][SQLAlchemy-badge]][SQLAlchemy-url]
 
-```
-cd yacut
-```
 
-Cоздать и активировать виртуальное окружение:
+[Flask-badge]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
+[Flask-url]: https://flask.palletsprojects.com
 
-```
-python3 -m venv venv
-```
+[SQLAlchemy-badge]: https://img.shields.io/badge/sqlalchemy-fbfbfb?style=for-the-badge
+[SQLAlchemy-url]: https://www.sqlalchemy.org/
 
-* Если у вас Linux/macOS
+### Описание
+Сервис для создания и использования коротких ссыылок. Есть API интерфейс.
 
-    ```
-    source venv/bin/activate
-    ```
-
-* Если у вас windows
-
-    ```
-    source venv/scripts/activate
-    ```
-
-Установить зависимости из файла requirements.txt:
-
-```
-python3 -m pip install --upgrade pip
+Шаблон файла ".env":
+```python
+SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite3'
+SECRET_KEY=<секретный ключ>
+FLASK_APP=yacut
+FLASK_DEBUG=0
 ```
 
+### Инструкция по запуску
+Перед запуском необходимо склонировать проект:
+```bash
+HTTPS: git clone https://github.com/MuKeLaNGlo/foodgram-project-react.git
 ```
-pip install -r requirements.txt
+
+Запускаем контейнеры.  
+Из папки "./infra/" выполнить команду:
+```bash
+sudo docker-compose up -d
 ```
+
+После запуска контейнеров выполнить миграции:
+```bash
+sudo docker-compose exec backend python manage.py migrate
+```
+
+Создать суперпользователя:
+```bash
+sudo docker-compose exec backend python manage.py createsuperuser
+```
+
+Собрать статику:
+```bash
+sudo docker-compose exec backend python manage.py collectstatic --no-input
+```
+
+Теперь проект можно проверить по адресу [http://localhost:5000/](http://localhost:5000/)
+
+Сайт доступен по ссылке: http://127.0.0.1:5000/
