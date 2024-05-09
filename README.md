@@ -3,6 +3,7 @@
 [![Flask][Flask-badge]][Flask-url]
 [![SQLAlchemy][SQLAlchemy-badge]][SQLAlchemy-url]
 
+---
 
 [Flask-badge]: https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white
 [Flask-url]: https://flask.palletsprojects.com
@@ -12,6 +13,8 @@
 
 ### Описание
 Сервис для создания и использования коротких ссыылок. Есть API интерфейс.
+
+---
 
 Шаблон файла ".env":
 ```python
@@ -24,28 +27,13 @@ FLASK_DEBUG=0
 ### Инструкция по запуску
 Перед запуском необходимо склонировать проект:
 ```bash
-HTTPS: git clone https://github.com/MuKeLaNGlo/foodgram-project-react.git
+git clone https://github.com/MuKeLaNGlo/yacut.git
+cd yacut
 ```
 
-Запускаем контейнеры.  
-Из папки "./infra/" выполнить команду:
+Выполнить миграции:
 ```bash
-sudo docker-compose up -d
-```
-
-После запуска контейнеров выполнить миграции:
-```bash
-sudo docker-compose exec backend python manage.py migrate
-```
-
-Создать суперпользователя:
-```bash
-sudo docker-compose exec backend python manage.py createsuperuser
-```
-
-Собрать статику:
-```bash
-sudo docker-compose exec backend python manage.py collectstatic --no-input
+flask db upgrade
 ```
 
 Теперь проект можно проверить по адресу [http://localhost:5000/](http://localhost:5000/)
