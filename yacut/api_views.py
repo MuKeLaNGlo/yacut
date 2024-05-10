@@ -1,5 +1,7 @@
-from flask import Blueprint, jsonify, request
 from http import HTTPStatus
+
+from flask import Blueprint, jsonify, request
+
 from yacut import db
 from yacut.models import URLMap
 from yacut.utils import extract_id_from_url, validate_custom_id
@@ -15,13 +17,13 @@ def create_short_link():
     if not data:
         return (
             jsonify(message='Отсутствует тело запроса'),
-            HTTPStatus.BAD_REQUEST
+            HTTPStatus.BAD_REQUEST,
         )
 
     if 'url' not in data:
         return (
             jsonify(message='"url" является обязательным полем!'),
-            HTTPStatus.BAD_REQUEST
+            HTTPStatus.BAD_REQUEST,
         )
 
     original = data.get('url')
@@ -30,17 +32,21 @@ def create_short_link():
     if custom_id:
         custom_id = extract_id_from_url(custom_id)
         if not validate_custom_id(custom_id):
-            return jsonify(
-                message='Указано недопустимое имя для короткой ссылки'
-            ), 400
+            return (
+                jsonify(
+                    message='Указано недопустимое имя для короткой ссылки',
+                ),
+                HTTPStatus.BAD_REQUEST,
+            )
         if URLMap.query.filter_by(short=custom_id).first():
             return (
                 jsonify(
-                    message=('Предложенный вариант '
-                             + 'короткой ссылки уже существует.'
-                             )
+                    message=(
+                        'Предложенный вариант '
+                        + 'короткой ссылки уже существует.'
+                    ),
                 ),
-                400,
+                HTTPStatus.BAD_REQUEST,
             )
 
     base_url = request.host_url
@@ -50,17 +56,18 @@ def create_short_link():
     db.session.add(url_map)
     db.session.commit()
 
-    return jsonify(url=original, short_link=short_url), 201
+    return jsonify(url=original, short_link=short_url), HTTPStatus.CREATED
 
 
 @api.route('/id/<short_id>/', methods=['GET'])
 def get_original_link(short_id: str):
     if not short_id:
-        return jsonify(
-            message='Не передан короткий идентификатор ссылки.'
-        ), 201
+        return (
+            jsonify(message='Не передан короткий идентификатор ссылки.'),
+            201,
+        )
 
     url_map = URLMap.query.filter_by(short=short_id).first()
     if not url_map:
-        return jsonify(message='Указанный id не найден'), 404
-    return jsonify(url=url_map.original), 200
+        return jsonify(message='Указанный id не найден'), HTTPStatus.NOT_FOUND
+    return jsonify(url=url_map.original), HTTPStatus.OK
