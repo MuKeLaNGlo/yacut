@@ -17,7 +17,10 @@ class URLForm(FlaskForm):
         validators=[
             Optional(),
             Length(min=1, max=16, message='Максимальная длина - 16 символов'),
-            Regexp('^[a-zA-Z0-9-]*$', message='Допустимы только буквы, цифры и дефисы')
+            Regexp(
+                '^[a-zA-Z0-9-]*$',
+                message='Допустимы только буквы, цифры и дефисы'
+            )
         ],
     )
     submit = SubmitField('Создать')
