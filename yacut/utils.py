@@ -6,6 +6,7 @@ from yacut.models import URLMap
 
 
 def generate_random_string(length=6):
+    """Генерирует случайную строку из букв и цифр заданной длины."""
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
 
@@ -19,8 +20,10 @@ def get_unique_short_id():
 
 
 def validate_custom_id(custom_id):
-    """Проверяет, соответствует ли custom_id условиям:
-    только буквы и цифры, длина до 16 символов."""
+    """
+    Проверяет, соответствует ли custom_id условиям:
+    только буквы и цифры, длина до 16 символов.
+    """
     return bool(match(r'^[A-Za-z0-9]{1,16}$', custom_id))
 
 

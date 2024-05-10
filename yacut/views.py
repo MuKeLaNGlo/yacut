@@ -11,31 +11,31 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = URLForm()
-    if form.validate_on_submit():
-        original_link = form.original_link.data
-        custom_id = form.custom_id.data
-        base_url = request.host_url
+    if not form.validate_on_submit():
+        return render_template('index.html', form=form)
 
-        if custom_id and URLMap.query.filter_by(short=custom_id).first():
-            flash(
-                'Предложенный вариант короткой ссылки уже существует.',
-                'warning'
-            )
-            return render_template('index.html', form=form)
+    original_link = form.original_link.data
+    custom_id = form.custom_id.data
+    base_url = request.host_url
 
-        short = custom_id if custom_id else get_unique_short_id()
-        url_map = URLMap(original=original_link, short=short)
-        db.session.add(url_map)
-        db.session.commit()
-
-        full_url = base_url + short
+    if custom_id and URLMap.query.filter_by(short=custom_id).first():
         flash(
-            'Короткая ссылка создана: '
-            f'<a href="{full_url}" target="_blank">{full_url}</a>',
-            'success',
+            'Предложенный вариант короткой ссылки уже существует.',
+            'warning'
         )
         return render_template('index.html', form=form)
 
+    short = custom_id if custom_id else get_unique_short_id()
+    url_map = URLMap(original=original_link, short=short)
+    db.session.add(url_map)
+    db.session.commit()
+
+    full_url = f'{base_url}{short}'
+    flash(
+        'Короткая ссылка создана: '
+        + f'<a href="{full_url}" target="_blank">{full_url}</a>',
+        'success',
+    )
     return render_template('index.html', form=form)
 
 

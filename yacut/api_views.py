@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-
+from http import HTTPStatus
 from yacut import db
 from yacut.models import URLMap
 from yacut.utils import extract_id_from_url, validate_custom_id
@@ -13,10 +13,16 @@ def create_short_link():
     data = request.get_json()
 
     if not data:
-        return jsonify(message='Отсутствует тело запроса'), 400
+        return (
+            jsonify(message='Отсутствует тело запроса'),
+            HTTPStatus.BAD_REQUEST
+        )
 
     if 'url' not in data:
-        return jsonify(message='"url" является обязательным полем!'), 400
+        return (
+            jsonify(message='"url" является обязательным полем!'),
+            HTTPStatus.BAD_REQUEST
+        )
 
     original = data.get('url')
     custom_id = data.get('custom_id')
@@ -30,8 +36,9 @@ def create_short_link():
         if URLMap.query.filter_by(short=custom_id).first():
             return (
                 jsonify(
-                    message='Предложенный вариант '
-                            'короткой ссылки уже существует.'
+                    message=('Предложенный вариант '
+                             + 'короткой ссылки уже существует.'
+                             )
                 ),
                 400,
             )
